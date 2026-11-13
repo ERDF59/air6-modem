@@ -75,3 +75,7 @@ python3 build.py
 - [P54 CA audit / 射频路由与状态检查（2026-11-11）](docs/ca-audit-20261111.md)
 
 - [P54 native CA lookup / 原生消费者与 n78 复用核对](docs/ca-native-check-20261111.md)
+
+## License and project notice / 许可与项目声明
+
+See [licensing scope / 许可范围](LICENSING.md) and [disclaimer, trademarks and rights requests / 免责声明、商标及权利反馈](DISCLAIMER.md).
