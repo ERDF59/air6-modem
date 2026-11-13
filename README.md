@@ -36,17 +36,16 @@ Available devices, SIMs, network environments and testing time are limited. Cont
 - `test.py`: check pinned inputs, build output and unchanged original runtime entry points; verify no private authorization runtime is injected.
 - JSON files: record layouts, NR graphs, migration plans and input hashes.
 
-## Included reference inputs
+## External reference inputs / 外部参考输入
 
-The owner explicitly requested inclusion of these pinned fixtures:
+Vendor firmware images are not distributed in this repository. Obtain legally sourced inputs yourself and place them at the paths below before building. `inputs.lock.json` specifies the required SHA-256 values. These ignored files must not be committed.
 
-```text
-metadata/sb_rudolf_v1.01.85_single/modem-verified.img
-fullband_eu_bucket_order_fix_20mhz/modem.img
-fullband_eu_bucket_order_fix_20mhz/manifest.json
-```
+本仓库不分发厂商固件镜像。构建前请自行准备有合法来源的输入，按以下路径放置，并用 `inputs.lock.json` 核对 SHA-256；这些被忽略的文件不得提交。
 
-Reference firmware retains its original provenance and licensing. The MIT license on original project scripts does not relicense vendor firmware. `inputs.lock.json` records hashes; its `.gz` names refer to original archives, while tests check decompressed reference content.
+- `metadata/sb_rudolf_v1.01.85_single/modem-verified.img`
+- `fullband_eu_bucket_order_fix_20mhz/modem.img`
+- `fullband_eu_bucket_order_fix_20mhz/manifest.json` (metadata retained / 元数据保留)
+
 
 ## Build and test
 

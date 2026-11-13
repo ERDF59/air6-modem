@@ -36,17 +36,16 @@
 - `test.py`：核对输入哈希、构建结果和保持原样的运行时入口，检查没有植入私有授权运行时。
 - JSON 文件：记录布局、NR 图、迁移计划与输入哈希。
 
-## 参考输入
+## External reference inputs / 外部参考输入
 
-按仓库所有者要求，以下三个固定输入已包含在库中：
+Vendor firmware images are not distributed in this repository. Obtain legally sourced inputs yourself and place them at the paths below before building. `inputs.lock.json` specifies the required SHA-256 values. These ignored files must not be committed.
 
-```text
-metadata/sb_rudolf_v1.01.85_single/modem-verified.img
-fullband_eu_bucket_order_fix_20mhz/modem.img
-fullband_eu_bucket_order_fix_20mhz/manifest.json
-```
+本仓库不分发厂商固件镜像。构建前请自行准备有合法来源的输入，按以下路径放置，并用 `inputs.lock.json` 核对 SHA-256；这些被忽略的文件不得提交。
 
-原始固件的来源和许可保持不变，不因本项目脚本的 MIT 许可而重新许可。`inputs.lock.json` 中的 SHA256 用于核对输入；文件名中的 `.gz` 为原始存档名称，校验的是解压后的参考内容。
+- `metadata/sb_rudolf_v1.01.85_single/modem-verified.img`
+- `fullband_eu_bucket_order_fix_20mhz/modem.img`
+- `fullband_eu_bucket_order_fix_20mhz/manifest.json` (metadata retained / 元数据保留)
+
 
 ## 构建与测试
 
