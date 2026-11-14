@@ -78,3 +78,9 @@ python3 build.py
 ## License and project notice / 许可与项目声明
 
 See [licensing scope / 许可范围](LICENSING.md) and [disclaimer, trademarks and rights requests / 免责声明、商标及权利反馈](DISCLAIMER.md).
+
+## P54 DRDI integrity / 摘要校验
+
+[DRDI SHA-256 refresh, audit and offline rollback](docs/drdi-integrity-20261115.md) documents the 640-range check and reusable CLI. The metadata build now uses this shared implementation and records the result in `build/report.json`. It does not establish n41/CA support.
+
+Independent regression tests without firmware inputs: `python3 -m unittest discover -s tests -p test_drdi_integrity.py -v`.
