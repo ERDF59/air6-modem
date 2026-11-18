@@ -4,7 +4,7 @@
 
 这是面向日本软银家用路由器 **SoftBank Air 6（软银 Air6，型号 A775）**、移远 RG620T-SBK 模组的 P54 频段元数据迁移去授权公开子集，不含一机一码逻辑、机器码代码、授权 Hook、签发密钥、SDK 签名工具或可直接刷入的发行包。
 
-## 频段解锁 / 扩展目标
+## 目标频段
 
 本项目面向 **SoftBank Air 6（软银 Air6 / A775）** 的 P54 modem 频段元数据迁移，目标频段集合为 **LTE 12 个 + NR 13 个，共 25 个制式频段项**：
 
@@ -17,13 +17,13 @@
 
 公开版本已移除一机一码和授权 Hook，构建不需要机器码或解锁码。按下文运行 `python3 test.py` 可生成并检查 `build/modem-unsigned.img`；输出仍须经过独立的厂商签名和逐项真机验证，不能直接把未签名镜像用于后台签名包更新。
 
-该列表是迁移目标，不是全部频段已完成 RF/网络实测的承诺。是否可用还取决于板级射频、校准、天线、SIM、网络覆盖及当地规范。README 的 n78 截图来自私有参考版本；公开去授权实验镜像尚未真机验证。**CA 暂不支持。** 如需协助给候选 modem 签名，请通过 Issues 联系维护者；工具与私钥不会公开。
+该列表是迁移目标，不是全部频段已完成 RF/网络实测的承诺。是否可用还取决于板级射频、校准、天线、SIM、网络覆盖及当地规范。n78 截图来自私有参考版本。公开实验镜像仍待真机验证。
 
-## CA 暂不支持，欢迎接力
+## 载波聚合与贡献
 
 **当前开源实验版本 CA（载波聚合）暂不支持，也不承诺任何 CA 组合可用。** 保留原厂 CA 元数据不等于 CA 已实现或已通过网络验证。
 
-维护者的设备、SIM、网络条件和测试时间有限，希望有人接手继续研究 CA、NR/LTE 组合、RF 和长期稳定性。欢迎在 Issues / Pull Requests 提交可复现代码与去标识化记录，附运营商、制式、频段、带宽、镜像哈希和步骤，不能只根据 UI 图标判断聚合成立。
+欢迎参与 CA、NR/LTE 组合、射频和长期稳定性研究。请通过 Issue 或 Pull Request 提交可复现代码和脱敏测试记录，附上运营商、制式、频段、带宽、镜像哈希和操作步骤。仅凭界面图标无法确认载波实际参与聚合。
 
 **维护者可以协助给候选 modem 签名，方便真机测试。** 可通过 Issues 联系 [hchyhchyxh](https://github.com/hchyhchyxh) 商议镜像和测试安排。签名工具和私钥不公开；提供签名不等于保证可启动或 CA 可用。
 
@@ -36,16 +36,13 @@
 - `test.py`：核对输入哈希、构建结果和保持原样的运行时入口，检查没有植入私有授权运行时。
 - JSON 文件：记录布局、NR 图、迁移计划与输入哈希。
 
-## External reference inputs / 外部参考输入
-
-Vendor firmware images are not distributed in this repository. Obtain legally sourced inputs yourself and place them at the paths below before building. `inputs.lock.json` specifies the required SHA-256 values. These ignored files must not be committed.
+## 外部参考输入
 
 本仓库不分发厂商固件镜像。构建前请自行准备有合法来源的输入，按以下路径放置，并用 `inputs.lock.json` 核对 SHA-256；这些被忽略的文件不得提交。
 
 - `metadata/sb_rudolf_v1.01.85_single/modem-verified.img`
 - `fullband_eu_bucket_order_fix_20mhz/modem.img`
-- `fullband_eu_bucket_order_fix_20mhz/manifest.json` (metadata retained / 元数据保留)
-
+- `fullband_eu_bucket_order_fix_20mhz/manifest.json`（参考元数据）
 
 ## 构建与测试
 
@@ -71,16 +68,22 @@ python3 build.py
 
 - [蜂窝 API：CA、EN-DC 与小区测量说明](docs/cellular-telemetry-api.md)
 
-- [P54 CA audit / 射频路由与状态检查（2026-11-11）](docs/ca-audit-20261111.md)
+- [P54 CA 审计：射频路由与状态检查（2026-11-11）](docs/ca-audit-20261111.md)
 
-- [P54 native CA lookup / 原生消费者与 n78 复用核对](docs/ca-native-check-20261111.md)
+- [P54 原生 CA 查询与 n78 复用核对](docs/ca-native-check-20261111.md)
 
-## License and project notice / 许可与项目声明
+## 许可与项目声明
 
-See [licensing scope / 许可范围](LICENSING.md) and [disclaimer, trademarks and rights requests / 免责声明、商标及权利反馈](DISCLAIMER.md).
+参阅[许可范围](LICENSING.md)与[免责声明、商标及权利反馈](DISCLAIMER.md)。
 
-## P54 DRDI integrity / 摘要校验
+## P54 DRDI 完整性校验
 
-[DRDI SHA-256 refresh, audit and offline rollback](docs/drdi-integrity-20261115.md) documents the 640-range check and reusable CLI. The metadata build now uses this shared implementation and records the result in `build/report.json`. It does not establish n41/CA support.
+[DRDI SHA-256 重算、审计与离线回退](docs/drdi-integrity-20261115.md)介绍了 640 个区段的摘要校验和可复用的命令行工具。元数据构建共用这套实现，并将结果写入 `build/report.json`。n41 与载波聚合仍待实机验证。
 
-Independent regression tests without firmware inputs: `python3 -m unittest discover -s tests -p test_drdi_integrity.py -v`.
+无需固件输入即可运行独立回归测试。 `python3 -m unittest discover -s tests -p test_drdi_integrity.py -v`.
+
+## 捐赠支持
+
+如果你愿意支持项目继续开发，欢迎理性捐赠、量力而行。捐赠完全自愿，所得款项仅用于购买开发所需的 AI Token。请友善交流，感谢理解。
+
+![捐赠二维码](docs/images/donation-qr.jpg)

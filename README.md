@@ -1,10 +1,10 @@
-# SoftBank Air 6 (软银 Air6 / A775) — P54 modem research
+# SoftBank Air 6 (A775) — P54 modem research
 
 **English** | [简体中文](README.zh-CN.md)
 
-An authorization-free public subset of P54 modem frequency metadata migration specifically for the **SoftBank Air 6 (软银 Air6 / A775)** home router, using the Quectel RG620T-SBK modem. No device-bound licensing logic, fingerprint implementation, authorization hooks, issuer keys, vendor signing SDK/tool, signer executable or ready-to-flash release package is included.
+An authorization-free public subset of P54 modem frequency metadata migration specifically for the **SoftBank Air 6 (A775)** home router, using the Quectel RG620T-SBK modem. No device-bound licensing logic, fingerprint implementation, authorization hooks, issuer keys, vendor signing SDK/tool, signer executable or ready-to-flash release package is included.
 
-## Band unlocking / expansion targets
+## Target bands
 
 This project migrates P54 modem band metadata for **SoftBank Air 6 (A775)**. The target set contains **12 LTE bands + 13 NR bands: 25 RAT-specific band entries**:
 
@@ -17,13 +17,13 @@ This project migrates P54 modem band metadata for **SoftBank Air 6 (A775)**. The
 
 The public version excludes device-bound licensing and authorization hooks; building requires no fingerprint or unlock code. Run `python3 test.py` as documented below to produce and check `build/modem-unsigned.img`. The result still requires independent vendor signing and hardware validation; it is not a signed package accepted by the web updater.
 
-This is a migration target list, not a claim that every band has passed RF/network testing. Availability depends on board RF hardware, calibration, antennas, SIM, coverage and applicable local requirements. The n78 screenshots show the private reference version; this public authorization-free experiment has not been device validated. **CA remains unsupported.** Contact the maintainer through Issues for assistance signing candidate modem images; tools and private keys remain private.
+This is a migration target list, not a claim that every band has passed RF/network testing. Availability depends on board RF hardware, calibration, antennas, SIM, coverage and applicable local requirements. The n78 screenshots show the private reference version. This public experiment has yet to be validated on a device.
 
-## CA is not supported yet — contributors welcome
+## Carrier aggregation and contributions
 
 **Carrier aggregation (CA) is currently unsupported in this public experiment; no CA combination is promised to work.** Preserving original CA metadata does not establish implemented, enabled or network-validated CA behavior.
 
-Available devices, SIMs, network environments and testing time are limited. Contributors are welcome to continue CA, NR/LTE combinations, RF and long-term stability research. Submit reproducible code and redacted test reports through Issues / Pull Requests, including operator, RAT, bands, widths, image hashes and steps. A UI indicator alone is not evidence of active aggregation.
+Contributions on CA, NR/LTE combinations, RF behavior and long-term stability are welcome. Submit reproducible code and redacted test reports through Issues or Pull Requests. Include the operator, RAT, bands, bandwidths, image hashes and steps. A UI indicator alone is not evidence of active aggregation.
 
 **The maintainer can help sign candidate modem images for device testing.** Contact [hchyhchyxh](https://github.com/hchyhchyxh) through repository Issues to discuss candidates and tests. Signing tools and private keys remain private. A signature does not guarantee boot acceptance or CA functionality.
 
@@ -36,16 +36,13 @@ Available devices, SIMs, network environments and testing time are limited. Cont
 - `test.py`: check pinned inputs, build output and unchanged original runtime entry points; verify no private authorization runtime is injected.
 - JSON files: record layouts, NR graphs, migration plans and input hashes.
 
-## External reference inputs / 外部参考输入
+## External reference inputs
 
 Vendor firmware images are not distributed in this repository. Obtain legally sourced inputs yourself and place them at the paths below before building. `inputs.lock.json` specifies the required SHA-256 values. These ignored files must not be committed.
 
-本仓库不分发厂商固件镜像。构建前请自行准备有合法来源的输入，按以下路径放置，并用 `inputs.lock.json` 核对 SHA-256；这些被忽略的文件不得提交。
-
 - `metadata/sb_rudolf_v1.01.85_single/modem-verified.img`
 - `fullband_eu_bucket_order_fix_20mhz/modem.img`
-- `fullband_eu_bucket_order_fix_20mhz/manifest.json` (metadata retained / 元数据保留)
-
+- `fullband_eu_bucket_order_fix_20mhz/manifest.json` (reference metadata)
 
 ## Build and test
 
@@ -71,16 +68,22 @@ The related [OpenWrt AIR6 project](https://github.com/hchyhchyxh/openwrt-air6) p
 
 - [Cellular API telemetry: CA, EN-DC and cell measurements](docs/cellular-telemetry-api.md)
 
-- [P54 CA audit / 射频路由与状态检查（2026-11-11）](docs/ca-audit-20261111.md)
+- [P54 CA audit: RF routes and status checks (November 11, 2026)](docs/ca-audit-20261111.md)
 
-- [P54 native CA lookup / 原生消费者与 n78 复用核对](docs/ca-native-check-20261111.md)
+- [P54 native CA lookup and n78 reuse](docs/ca-native-check-20261111.md)
 
-## License and project notice / 许可与项目声明
+## License and project notice
 
-See [licensing scope / 许可范围](LICENSING.md) and [disclaimer, trademarks and rights requests / 免责声明、商标及权利反馈](DISCLAIMER.md).
+See the [licensing scope](LICENSING.md) and the [disclaimer, trademark and rights-request policies](DISCLAIMER.md).
 
-## P54 DRDI integrity / 摘要校验
+## P54 DRDI integrity
 
 [DRDI SHA-256 refresh, audit and offline rollback](docs/drdi-integrity-20261115.md) documents the 640-range check and reusable CLI. The metadata build now uses this shared implementation and records the result in `build/report.json`. It does not establish n41/CA support.
 
 Independent regression tests without firmware inputs: `python3 -m unittest discover -s tests -p test_drdi_integrity.py -v`.
+
+## Support development
+
+If you would like to support continued development, please donate only what you can comfortably afford. Donations are entirely voluntary, and all proceeds go toward purchasing AI tokens for development. Please keep discussions respectful.
+
+![Donation QR codes](docs/images/donation-qr.jpg)
